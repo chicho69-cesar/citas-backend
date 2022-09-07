@@ -1,20 +1,5 @@
-var builder = WebApplication.CreateBuilder(args);
+using citas_backend;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment()) {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+var app = StartUp.InitializeApplication(args);
 
 app.Run();
