@@ -1,4 +1,7 @@
-﻿namespace citas_backend {
+﻿using citas_backend.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace citas_backend {
     public class StartUp {
         public static WebApplication InitializeApplication(string[] args) {
             var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,10 @@
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<citasContext>(options => {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
         }
 
         private static void ConfigureMiddlewares(WebApplication app) {
