@@ -1,4 +1,5 @@
 ﻿using citas_backend.Data;
+using citas_backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,10 +40,15 @@ namespace citas_backend.Controllers {
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add(Degree degree) {
+        public async Task<IActionResult> Add(AddAndUpdateDegree model) {
             try {
+                var degree = new Degree { 
+                    Name = model.Name
+                };
+
                 var addedDegree = await _context.Degrees.AddAsync(degree);
                 await _context.SaveChangesAsync();
+
                 return Created($"/api/degrees/{ addedDegree.Entity.Id }", addedDegree.Entity);
             } catch(Exception) {
                 return BadRequest();
@@ -51,7 +57,7 @@ namespace citas_backend.Controllers {
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update(Degree degree) {
+        public async Task<IActionResult> Update(AddAndUpdateDegree degree) {
             try {
                 var searchedDegree = await _context.Degrees
                     .FindAsync(degree.Id);
@@ -69,7 +75,6 @@ namespace citas_backend.Controllers {
                 }
 
                 modified.Name = degree.Name;
-                modified.Users = degree.Users;
 
                 _context.Entry(modified).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
