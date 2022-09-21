@@ -53,6 +53,7 @@ namespace citas_backend.Controllers {
 
                 var added = await _context.PostImages.AddAsync(postImage);
                 await _context.SaveChangesAsync();
+
                 return Created($"/api/postimages/get/{ added.Entity.Id }", added);
             } catch(Exception) {
                 return BadRequest();
