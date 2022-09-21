@@ -9,16 +9,16 @@ namespace citas_backend.Data {
 
         public citasContext(DbContextOptions<citasContext> options) : base(options) { }
 
-        public virtual DbSet<Comment> Comments { get; set; } = null!;
-        public virtual DbSet<Date> Dates { get; set; } = null!;
-        public virtual DbSet<Degree> Degrees { get; set; } = null!;
-        public virtual DbSet<Hobby> Hobbies { get; set; } = null!;
-        public virtual DbSet<Message> Messages { get; set; } = null!;
-        public virtual DbSet<Post> Posts { get; set; } = null!;
-        public virtual DbSet<PostImage> PostImages { get; set; } = null!;
-        public virtual DbSet<SocialNetwork> SocialNetworks { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UserHobby> UserHobbies { get; set; } = null!;
+        public DbSet<Comment> Comments { get; set; } = null!;
+        public DbSet<Date> Dates { get; set; } = null!;
+        public DbSet<Degree> Degrees { get; set; } = null!;
+        public DbSet<Hobby> Hobbies { get; set; } = null!;
+        public DbSet<Message> Messages { get; set; } = null!;
+        public DbSet<Post> Posts { get; set; } = null!;
+        public DbSet<PostImage> PostImages { get; set; } = null!;
+        public DbSet<SocialNetwork> SocialNetworks { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserHobby> UserHobbies { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
@@ -27,6 +27,8 @@ namespace citas_backend.Data {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Comment>(entity => {
                 entity.Property(e => e.Comment1)
                     .HasMaxLength(550)

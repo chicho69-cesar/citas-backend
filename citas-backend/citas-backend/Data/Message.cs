@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace citas_backend.Data
 {
     public partial class Message
     {
-        public int Id { get; set; }
+        [Key]
+        public int IdMessage { get; set; }
         public string Message1 { get; set; } = null!;
         public DateTime Date { get; set; }
         public int IdUserSend { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace citas_backend.Data
 {
-    public partial class Hobby
+    public class Hobby
     {
         public Hobby()
         {
