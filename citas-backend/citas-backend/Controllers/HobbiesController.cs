@@ -7,78 +7,80 @@ using Microsoft.EntityFrameworkCore;
 namespace citas_backend.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class PostImagesController : ControllerBase {
+    public class HobbiesController : ControllerBase {
         private readonly citasContext _context;
 
-        public PostImagesController(citasContext context) {
+        public HobbiesController(citasContext context) {
             _context = context;
         }
 
         [HttpGet]
         [Route("get-all")]
         public async Task<IActionResult> GetAll() {
-            try {
-                return Ok(await _context.PostImages.ToListAsync());
-            } catch (Exception) {
-                return BadRequest();
-            }
+            return Ok(await _context.Hobbies.ToListAsync());
         }
 
         [HttpGet]
         [Route("get/{id}")]
         public async Task<IActionResult> Get(int id) {
             try {
-                var searchedImage = await _context.PostImages
-                    .Where(p => p.Id == id)
+                var searchedHobbie = await _context.Hobbies
+                    .Where(d => d.Id == id)
                     .FirstOrDefaultAsync();
 
-                if (searchedImage is null) {
+                if (searchedHobbie is null) {
                     return NotFound();
                 }
 
-                return Ok(searchedImage);
-            } catch(Exception) {
+                return Ok(searchedHobbie);
+            } catch (Exception) {
                 return BadRequest();
             }
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add(AddAndUpdatePostImages model) {
+        public async Task<IActionResult> Add(AddAndUpdateHobby model) {
             try {
-                var postImage = new PostImage {
-                    ImageUrl = model.ImageUrl,
-                    IdPost = model.IdPost
+                var hobby = new Hobby {
+                    Name = model.Name
                 };
 
-                var added = await _context.PostImages.AddAsync(postImage);
+                var addedHobby = await _context.Hobbies.AddAsync(hobby);
                 await _context.SaveChangesAsync();
-                return Created($"/api/postimages/get/{ added.Entity.Id }", added);
-            } catch(Exception) {
+
+                return Created($"/api/hobbies/{addedHobby.Entity.Id}", addedHobby.Entity);
+            } catch (Exception) {
                 return BadRequest();
             }
         }
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update(AddAndUpdatePostImages model) {
+        public async Task<IActionResult> Update(AddAndUpdateHobby model) {
             try {
-                var modified = await _context.PostImages
-                    .Where(pi => pi.Id == model.Id)
+                var searchedHobby = await _context.Hobbies
+                    .FindAsync(model.Id);
+
+                if (searchedHobby is null) {
+                    return NotFound();
+                }
+
+                var modified = await _context.Hobbies
+                    .Where(d => d.Id == searchedHobby.Id)
                     .FirstAsync();
 
                 if (modified is null) {
                     return NotFound();
                 }
 
-                modified.ImageUrl = model.ImageUrl;
-                modified.IdPost = model.IdPost;
+                modified.Name = model.Name;
 
                 _context.Entry(modified).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
                 return NoContent();
-            } catch(Exception) {
+            } catch (Exception) {
                 return BadRequest();
             }
         }
@@ -87,8 +89,8 @@ namespace citas_backend.Controllers {
         [Route("delete/{id}")]
         public async Task<IActionResult> Delete(int id) {
             try {
-                var searchedToDelete = await _context.PostImages
-                    .Where(pi => pi.Id == id)
+                var searchedToDelete = await _context.Hobbies
+                    .Where(d => d.Id == id)
                     .FirstAsync();
 
                 if (searchedToDelete is null) {
@@ -99,7 +101,7 @@ namespace citas_backend.Controllers {
                 await _context.SaveChangesAsync();
 
                 return Ok();
-            } catch(Exception) {
+            } catch (Exception) {
                 return BadRequest();
             }
         }
