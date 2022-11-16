@@ -1,5 +1,6 @@
 ﻿using citas_backend.Data;
 using citas_backend.Models;
+using citas_backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +53,7 @@ namespace citas_backend.Controllers {
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add(AddAndUpdateComments model)
+        public async Task<IActionResult> Add(AddAndUpdateComment model)
         {
             try
             {
@@ -75,7 +76,7 @@ namespace citas_backend.Controllers {
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update(AddAndUpdateComments model)
+        public async Task<IActionResult> Update(AddAndUpdateComment model)
         {
             try
             {

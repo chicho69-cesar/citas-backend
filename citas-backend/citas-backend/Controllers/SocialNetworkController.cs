@@ -1,10 +1,13 @@
 ﻿using citas_backend.Data;
+using citas_backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace citas_backend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SocialNetworkController : Controller
     {
         private readonly citasContext _context;
@@ -20,7 +23,7 @@ namespace citas_backend.Controllers
         {
             try
             {
-                return Ok(await _context.SocialNetwork.ToListAsync());
+                return Ok(await _context.SocialNetworks.ToListAsync());
             }
             catch (Exception)
             {
@@ -34,7 +37,7 @@ namespace citas_backend.Controllers
         {
             try
             {
-                var searchedImage = await _context.SocialNetwork
+                var searchedImage = await _context.SocialNetworks
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
@@ -64,7 +67,7 @@ namespace citas_backend.Controllers
                     IdUser = model.IdUser
                 };
 
-                var added = await _context.SocialNetwork.AddAsync(socialNetwork);
+                var added = await _context.SocialNetworks.AddAsync(socialNetwork);
                 await _context.SaveChangesAsync();
                 return Created($"/api/SocialNetwork/get/{ added.Entity.Id }", added);
             }
@@ -80,7 +83,7 @@ namespace citas_backend.Controllers
         {
             try
             {
-                var modified = await _context.SocialNetwork
+                var modified = await _context.SocialNetworks
                     .Where(pi => pi.Id == model.Id)
                     .FirstAsync();
 
@@ -110,7 +113,7 @@ namespace citas_backend.Controllers
         {
             try
             {
-                var searchedToDelete = await _context.SocialNetwork
+                var searchedToDelete = await _context.SocialNetworks
                     .Where(pi => pi.Id == id)
                     .FirstAsync();
 

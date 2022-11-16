@@ -46,7 +46,7 @@ namespace citas_backend.Controllers{
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add(AddAndUpdatePosts model)
+        public async Task<IActionResult> Add(AddAndUpdatePost model)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace citas_backend.Controllers{
         }
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update(AddAndUpdatePosts model)
+        public async Task<IActionResult> Update(AddAndUpdatePost model)
         {
             try
             {

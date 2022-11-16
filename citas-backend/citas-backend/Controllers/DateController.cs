@@ -1,14 +1,17 @@
 ﻿using citas_backend.Data;
+using citas_backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace citas_backend.Controllers {
+    [Route("api/[controller]")]
+    [ApiController]
     public class DateController : ControllerBase{
 
         private readonly citasContext _context;
 
-        public CommentsController(citasContext context)
+        public DateController(citasContext context)
         {
             _context = context;
         }
@@ -19,7 +22,7 @@ namespace citas_backend.Controllers {
         {
             try
             {
-                return Ok(await _context.Date.ToListAsync());
+                return Ok(await _context.Dates.ToListAsync());
             }
             catch (Exception)
             {
@@ -33,7 +36,7 @@ namespace citas_backend.Controllers {
         {
             try
             {
-                var searchedImage = await _context.Date
+                var searchedImage = await _context.Dates
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
@@ -58,7 +61,7 @@ namespace citas_backend.Controllers {
             {
                 var _date = new Date
                 {
-                    _Date = model._Date,
+                    Date1 = model.Date1,
                     Place = model.Place,
                     Description = model.Description, 
                     Grade = model.Grade,
@@ -66,7 +69,7 @@ namespace citas_backend.Controllers {
                     IdUserSecond = model.IdUserSecond
                 };
 
-                var added = await _context.Date.AddAsync(_date);
+                var added = await _context.Dates.AddAsync(_date);
                 await _context.SaveChangesAsync();
                 return Created($"/api/Date/get/{ added.Entity.Id }", added);
             }
@@ -82,7 +85,7 @@ namespace citas_backend.Controllers {
         {
             try
             {
-                var modified = await _context.Date
+                var modified = await _context.Dates
                     .Where(pi => pi.Id == model.Id)
                     .FirstAsync();
 
@@ -91,14 +94,12 @@ namespace citas_backend.Controllers {
                     return NotFound();
                 }
 
-                modified._Date = model._Date;
+                modified.Date1 = model.Date1;
                 modified.Place = model.Place;
                 modified.Description = model.Description;
                 modified.Grade = model.Grade;
                 modified.IdUserFirst = model.IdUserFirst;
                 modified.IdUserSecond = model.IdUserSecond;
-                modified.ImageUrl = model.ImageUrl;
-                modified.IdPost = model.IdPost;
 
                 _context.Entry(modified).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
@@ -117,7 +118,7 @@ namespace citas_backend.Controllers {
         {
             try
             {
-                var searchedToDelete = await _context.Date
+                var searchedToDelete = await _context.Dates
                     .Where(pi => pi.Id == id)
                     .FirstAsync();
 
